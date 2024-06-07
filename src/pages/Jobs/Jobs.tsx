@@ -1,9 +1,11 @@
+import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Editor } from "@/components/Editor";
 import { Button } from "@/components/ui/button";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { MagnifyingGlassIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from "@/components/ui/select"
-import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 function truncateText(text: string, maxLength: number) {
    if (text.length <= maxLength) {
@@ -56,7 +58,7 @@ export function Jobs() {
    return (
       <>
          <main className="flex justify-center p-10 bg-primary-foreground">
-         <section className="m-10 mt-0 max-w-xl w-full">
+            <section className="m-10 mt-0 max-w-xl w-full">
                <Card>
                   <CardHeader className="text-center">
                      <CardTitle className="text-2xl font-bold tracking-tighter">Filtros</CardTitle>
@@ -104,6 +106,46 @@ export function Jobs() {
                      </div>
                   </CardContent>
                </Card>
+               <div className="mt-5 w-full">
+                  <Dialog>
+                     <DialogTrigger asChild className="w-full h-15 bg-primary text-white">
+                     <Button variant="outline"> <PlusCircledIcon className="mr-2" /> Anuncie uma nova vaga aqui</Button>
+                     </DialogTrigger>
+                     <DialogContent className="sm:max-w-[425px]">
+                     <DialogHeader>
+                        <DialogTitle>Nova Vaga</DialogTitle>
+                        <DialogDescription>
+                           Preencha todos os campos para publicar sua nova vaga.
+                        </DialogDescription>
+                     </DialogHeader>
+                     <div className="grid gap-4 py-4">
+                        <div className="flex-col items-center gap-4">
+                           <Label htmlFor="titulo" className="text-right">Título</Label>
+                           <Input id="titulo" placeholder="Desenvolvedor Fullstack JR" className="col-span-3" />
+                        </div>
+                        <div className="flex-col items-center gap-4">
+                           <Label htmlFor="localidade" className="text-right">Localidade</Label>
+                           <Input id="localidade" placeholder="São Paulo - SP" className="col-span-3" />
+                        </div>
+                        <div className="flex-col items-center gap-4">
+                           <Label htmlFor="modalidade" className="text-right">Modalidade</Label>
+                           <Input id="modalidade" placeholder="Híbrido" className="col-span-3" />
+                        </div>
+                        <div className="flex-col items-center gap-4">
+                           <Label htmlFor="periodo" className="text-right">Período</Label>
+                           <Input id="periodo" placeholder="Matutino" className="col-span-3" />
+                        </div>
+                        <div className="flex-col items-center gap-4">
+                           <Label htmlFor="descricao" className="text-right">Descrição</Label>
+                           <Editor />
+                        </div>
+                     </div>
+                     <DialogFooter>
+                        <Button type="submit">Adicionar</Button>
+                     </DialogFooter>
+                     </DialogContent>
+                  </Dialog>
+               </div>
             </section>
             <section className="m-10 mt-0">
                <Card>

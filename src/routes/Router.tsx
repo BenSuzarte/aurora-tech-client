@@ -2,7 +2,7 @@ import { Route, Routes, BrowserRouter as Router } from 'react-router-dom'
 
 import { SignIn } from '@/pages/SignIn'
 import { Register } from '@/pages/Register'
-import { Jobs } from '@/pages/Jobs/Candidate/index'
+import { Jobs } from '@/pages/Jobs/Jobs'
 
 export function AppRoutes() {
   return (
