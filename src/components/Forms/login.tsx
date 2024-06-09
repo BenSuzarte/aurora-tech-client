@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form"
 
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -15,18 +15,42 @@ import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import { Separator } from "../ui/separator"
 
+import { useState } from "react"
+
 export const LoginForm = () => {
+  const [error, setError] = useState('')
+
   const form = useForm({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
-      password: ""
+      senha: ""
     }
   })
 
   const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
-    const response = await axios.post('http://localhost:3000/login', data)
+    try {
+      const response = await axios.post('http://localhost:3000/login', data)
+      console.log(response.data)
+      
+      window.location.reload();
+    } catch (e) { {
+      if (axios.isAxiosError(e)) {
+        const axiosError = e as AxiosError;
+
+        if (!axiosError.response) {
+          setError('Erro ao se comunicar com o servidor. Tente novamente mais tarde...');
+        } else if (axiosError.response.status == 401) {
+          setError('Usuário ou senha inválidos!');
+        } else {
+          setError('Ocorreu um erro inesperado. Tente novamente mais tarde.');
+        }
+      } else {
+        setError('Erro desconhecido. Tente novamente mais tarde...');
+      }
+    } }
   }
+
 
   return (
     <Form {...form}>
@@ -45,7 +69,7 @@ export const LoginForm = () => {
         </FormField>
         <FormField 
         control={form.control}
-        name="password"
+        name="senha"
         render={({ field }) => (
           <FormItem className="mt-4">
             <FormLabel>Senha</FormLabel>
@@ -56,6 +80,7 @@ export const LoginForm = () => {
         )}>
         </FormField>
         <Button className="mt-6 w-full" type="submit">Entrar</Button>
+        <p className="text-md text-primary">{ error }</p>
         <div className="flex items-center gap-6 mt-4">
           <Separator />
             <span className="text-xs text-muted-foreground">OU</span>
