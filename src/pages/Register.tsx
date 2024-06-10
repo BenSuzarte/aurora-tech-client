@@ -1,13 +1,63 @@
-import { useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { LinkedInLogoIcon } from "@radix-ui/react-icons";
+import { useState } from "react";
+import { RegisterCandidatoSchema } from "@/schema/Register";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios, { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
+import { z } from "zod";
+import { FormRegisterCandidato } from "@/components/Forms/register";
 
 export function Register() {
   const [selectedUserType, setSelectedUserType] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const form = useForm({
+    resolver: zodResolver(RegisterCandidatoSchema),
+    defaultValues: {
+      email: "",
+      nome: "",
+      senha: "",
+      contato: "",
+      cpf: "",
+      data_nascimento: ""
+    }
+  })
+
+  const onSubmitCandidato = async (data: z.infer<typeof RegisterCandidatoSchema>) => {
+    try {
+      console.log(data)
+
+      const response = await axios.post('http://localhost:3000/register', data)
+      console.log(response.data)
+
+      if (response.status === 200) {
+        navigate('/login')
+      }
+    } catch (e) { {
+      console.log(e)
+
+      if (axios.isAxiosError(e)) {
+        const axiosError = e as AxiosError;
+
+        if (!axiosError.response) {
+          setError('Erro ao se comunicar com o servidor. Tente novamente mais tarde...');
+        } else if (axiosError.response.status == 401) {
+          setError('Usuário ou senha inválidos!');
+        } else {
+          setError('Ocorreu um erro inesperado. Tente novamente mais tarde.');
+        }
+      } else {
+        setError('Erro desconhecido. Tente novamente mais tarde...');
+      }
+    } }
+  }
 
   return (
     <>
@@ -47,41 +97,7 @@ export function Register() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form action="/register/candidate" method="post">
-                  <div>
-                    <Label htmlFor="email">E-mail</Label>
-                    <Input id="email" placeholder="examplo@dominio.com" type="email" />
-                  </div>
-                  <div className="mt-4">
-                    <Label htmlFor="senha">Senha</Label>
-                    <Input id="senha" placeholder="Digite sua senha" type="password" />
-                  </div>
-                  <div className="mt-4">
-                    <Label htmlFor="nome">Nome</Label>
-                    <Input id="nome" placeholder="Nome completo" type="text" />
-                  </div>
-                  <div className="mt-4">
-                    <Label htmlFor="contato">Contato</Label>
-                    <Input id="contato" placeholder="(11) 99999-9999" type="tel" pattern="(\([0-9]{2}\))\s([9]{1})?([0-9]{4})-([0-9]{4})" />
-                  </div>
-                  <div className="mt-4">
-                    <Label htmlFor="cpf">CPF</Label>
-                    <Input id="cpf" placeholder="999.999.999-00" type="text" pattern="[0-9]{11}" />
-                  </div>
-                  <div className="mt-4">
-                    <Label htmlFor="nascimento">Data de Nascimento</Label>
-                    <Input id="nascimento" type="date" />
-                  </div>
-                  <Button type="submit" className="mt-6 w-full">Cadastrar-se</Button>
-                  <div className="flex items-center gap-6 mt-4">
-                    <Separator />
-                    <span className="text-xs text-muted-foreground">OU</span>
-                    <Separator />
-                  </div>
-                  <Button variant="outline" className="mt-6 w-full">
-                    <LinkedInLogoIcon className="mr-2"/> Entrar com o LinkedIn
-                  </Button>
-                </form>
+                <FormRegisterCandidato />
               </CardContent>
               <CardFooter className="flex-col">
                 <p className="text-muted-foreground text-center text-sm">Ao entrar na plataforma você concorda com nossos Termos de Uso e Políticas de Privacidade.</p>
@@ -102,7 +118,7 @@ export function Register() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form action="/register/company" method="post">
+                <form action="/register" method="post">
                   <div>
                     <Label htmlFor="email">E-mail</Label>
                     <Input id="email" placeholder="examplo@dominio.com" type="email" />

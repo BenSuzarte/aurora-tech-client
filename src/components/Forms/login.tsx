@@ -16,9 +16,11 @@ import { Button } from "../ui/button"
 import { Separator } from "../ui/separator"
 
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 export const LoginForm = () => {
   const [error, setError] = useState('')
+  const navigate = useNavigate();
 
   const form = useForm({
     resolver: zodResolver(LoginSchema),
@@ -32,8 +34,10 @@ export const LoginForm = () => {
     try {
       const response = await axios.post('http://localhost:3000/login', data)
       console.log(response.data)
-      
-      window.location.reload();
+
+      if (response.status === 200) {
+        navigate('/jobs')
+      }
     } catch (e) { {
       if (axios.isAxiosError(e)) {
         const axiosError = e as AxiosError;
