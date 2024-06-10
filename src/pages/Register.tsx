@@ -5,59 +5,10 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { LinkedInLogoIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
-import { RegisterCandidatoSchema } from "@/schema/Register";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import axios, { AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
-import { z } from "zod";
 import { FormRegisterCandidato } from "@/components/Forms/register";
 
 export function Register() {
   const [selectedUserType, setSelectedUserType] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
-
-  const form = useForm({
-    resolver: zodResolver(RegisterCandidatoSchema),
-    defaultValues: {
-      email: "",
-      nome: "",
-      senha: "",
-      contato: "",
-      cpf: "",
-      data_nascimento: ""
-    }
-  })
-
-  const onSubmitCandidato = async (data: z.infer<typeof RegisterCandidatoSchema>) => {
-    try {
-      console.log(data)
-
-      const response = await axios.post('http://localhost:3000/register', data)
-      console.log(response.data)
-
-      if (response.status === 200) {
-        navigate('/login')
-      }
-    } catch (e) { {
-      console.log(e)
-
-      if (axios.isAxiosError(e)) {
-        const axiosError = e as AxiosError;
-
-        if (!axiosError.response) {
-          setError('Erro ao se comunicar com o servidor. Tente novamente mais tarde...');
-        } else if (axiosError.response.status == 401) {
-          setError('Usuário ou senha inválidos!');
-        } else {
-          setError('Ocorreu um erro inesperado. Tente novamente mais tarde.');
-        }
-      } else {
-        setError('Erro desconhecido. Tente novamente mais tarde...');
-      }
-    } }
-  }
 
   return (
     <>
