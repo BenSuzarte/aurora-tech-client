@@ -10,3 +10,14 @@ export const RegisterCandidatoSchema = z.object({
   cpf: z.string(),
   data_nascimento: z.string()
 })
+
+export const RegisterEmpresaSchema = z.object({
+  email: z.string().email({
+    message: "Insira um email válido, por favor!"
+  }),
+  nome: z.string(),
+  senha: z.string().min(8),
+  contato: z.string(),
+  cnpj: z.string(),
+  sede: z.string()
+})

@@ -35,6 +35,8 @@ export const LoginForm = () => {
       const response = await axios.post('http://localhost:3000/login', data)
       console.log(response.data)
 
+      localStorage.setItem('idUsuario', response.data.idUsuario)
+
       if (response.status === 200) {
         navigate('/jobs')
       }

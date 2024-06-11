@@ -1,11 +1,8 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { LinkedInLogoIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
-import { FormRegisterCandidato } from "@/components/Forms/register";
+import { FormRegisterCandidato } from "@/components/Forms/Register/candidate";
+import { FormRegisterEmpresa } from "@/components/Forms/Register/company";
 
 export function Register() {
   const [selectedUserType, setSelectedUserType] = useState("");
@@ -69,45 +66,11 @@ export function Register() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form action="/register" method="post">
-                  <div>
-                    <Label htmlFor="email">E-mail</Label>
-                    <Input id="email" placeholder="examplo@dominio.com" type="email" />
-                  </div>
-                  <div className="mt-4">
-                    <Label htmlFor="senha">Senha</Label>
-                    <Input id="senha" placeholder="Digite sua senha" type="password" />
-                  </div>
-                  <div className="mt-4">
-                    <Label htmlFor="nome">Nome</Label>
-                    <Input id="nome" placeholder="Nome completo" type="text" />
-                  </div>
-                  <div className="mt-4">
-                    <Label htmlFor="contato">Contato</Label>
-                    <Input id="contato" placeholder="(11) 99999-9999" type="tel" pattern="(\([0-9]{2}\))\s([9]{1})?([0-9]{4})-([0-9]{4})" />
-                  </div>
-                  <div className="mt-4">
-                    <Label htmlFor="cnpj">CNPJ</Label>
-                    <Input id="cnpj" placeholder="00.000.000/0001-00" type="text" pattern="([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})" />
-                  </div>
-                  <div className="mt-4">
-                    <Label htmlFor="sede">Sede</Label>
-                    <Input id="sede" placeholder="São Paulo - SP" type="text" />
-                  </div>
-                  <Button type="submit" className="mt-6 w-full">Cadastrar-se</Button>
-                  <div className="flex items-center gap-6 mt-4">
-                    <Separator />
-                    <span className="text-xs text-muted-foreground">OU</span>
-                    <Separator />
-                  </div>
-                  <Button variant="outline" className="mt-6 w-full">
-                    <LinkedInLogoIcon className="mr-2"/> Entrar com o LinkedIn
-                  </Button>
-                </form>
+                <FormRegisterEmpresa />
               </CardContent>
               <CardFooter className="flex-col">
                 <p className="text-muted-foreground text-center text-sm">Ao entrar na plataforma você concorda com nossos Termos de Uso e Políticas de Privacidade.</p>
-                <p className="text-muted-foreground text-center text-sm mt-4">Já possui uma conta? <a className="text-primary underline" href="/register">Faça o login aqui</a></p>
+                <p className="text-muted-foreground text-center text-sm mt-4">Já possui uma conta? <a className="text-primary underline" href="/">Faça o login aqui</a></p>
               </CardFooter>
             </Card>
           </section>

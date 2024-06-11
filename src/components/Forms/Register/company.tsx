@@ -3,31 +3,31 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { RegisterCandidatoSchema } from "@/schema/Register";
+import { RegisterEmpresaSchema } from "@/schema/Register";
 import axios, { AxiosError } from "axios";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Separator } from "../ui/separator"
+import { Form, FormControl, FormField, FormItem, FormLabel } from "../../ui/form";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
+import { Separator } from "../../ui/separator"
 import { LinkedInLogoIcon } from "@radix-ui/react-icons"
 
-export const FormRegisterCandidato = () => {
+export const FormRegisterEmpresa = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const form = useForm({
-    resolver: zodResolver(RegisterCandidatoSchema),
+    resolver: zodResolver(RegisterEmpresaSchema),
     defaultValues: {
       email: "",
       nome: "",
       senha: "",
       contato: "",
-      cpf: "",
-      data_nascimento: ""
+      cnpj: "",
+      sede: ""
     }
   })
 
-  const onSubmitCandidato = async (data: z.infer<typeof RegisterCandidatoSchema>) => {
+  const onSubmitEmpresa = async (data: z.infer<typeof RegisterEmpresaSchema>) => {
     try {
       console.log(data)
 
@@ -35,7 +35,7 @@ export const FormRegisterCandidato = () => {
       console.log(response.data)
 
       if (response.status === 200) {
-        navigate('/login')
+        navigate('/')
       }
     } catch (e) { {
       console.log(e)
@@ -58,7 +58,7 @@ export const FormRegisterCandidato = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmitCandidato)}>
+      <form onSubmit={form.handleSubmit(onSubmitEmpresa)}>
         <FormField
         control={form.control}
         name="email"
@@ -109,24 +109,24 @@ export const FormRegisterCandidato = () => {
         </FormField>
         <FormField
         control={form.control}
-        name="cpf"
+        name="cnpj"
         render={({ field }) => (
           <FormItem className="mt-2">
-            <FormLabel>CPF</FormLabel>
+            <FormLabel>CNPJ</FormLabel>
             <FormControl>
-                <Input {...field} type="text" placeholder="12345678900"/>
+                <Input {...field} type="text" placeholder="12345678000199"/>
             </FormControl>
           </FormItem>
         )}>
         </FormField>
         <FormField
         control={form.control}
-        name="data_nascimento"
+        name="sede"
         render={({ field }) => (
           <FormItem className="mt-2">
-            <FormLabel>Data de Nascimento</FormLabel>
+            <FormLabel>Sede</FormLabel>
             <FormControl>
-                <Input {...field} type="date"/>
+                <Input {...field} type="text" placeholder="São Paulo - SP"/>
             </FormControl>
           </FormItem>
         )}>

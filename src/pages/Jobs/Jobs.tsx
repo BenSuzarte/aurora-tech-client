@@ -6,6 +6,7 @@ import { MagnifyingGlassIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { FormCreateJob } from "@/components/Forms/Job/create";
 
 function truncateText(text: string, maxLength: number) {
    if (text.length <= maxLength) {
@@ -112,37 +113,13 @@ export function Jobs() {
                      <Button variant="outline"> <PlusCircledIcon className="mr-2" /> Anuncie uma nova vaga aqui</Button>
                      </DialogTrigger>
                      <DialogContent className="sm:max-w-[425px]">
-                     <DialogHeader>
-                        <DialogTitle>Nova Vaga</DialogTitle>
-                        <DialogDescription>
-                           Preencha todos os campos para publicar sua nova vaga.
-                        </DialogDescription>
-                     </DialogHeader>
-                     <div className="grid gap-4 py-4">
-                        <div className="flex-col items-center gap-4">
-                           <Label htmlFor="titulo" className="text-right">Título</Label>
-                           <Input id="titulo" placeholder="Desenvolvedor Fullstack JR" className="col-span-3" />
-                        </div>
-                        <div className="flex-col items-center gap-4">
-                           <Label htmlFor="localidade" className="text-right">Localidade</Label>
-                           <Input id="localidade" placeholder="São Paulo - SP" className="col-span-3" />
-                        </div>
-                        <div className="flex-col items-center gap-4">
-                           <Label htmlFor="modalidade" className="text-right">Modalidade</Label>
-                           <Input id="modalidade" placeholder="Híbrido" className="col-span-3" />
-                        </div>
-                        <div className="flex-col items-center gap-4">
-                           <Label htmlFor="periodo" className="text-right">Período</Label>
-                           <Input id="periodo" placeholder="Matutino" className="col-span-3" />
-                        </div>
-                        <div className="flex-col items-center gap-4">
-                           <Label htmlFor="descricao" className="text-right">Descrição</Label>
-                           <Editor />
-                        </div>
-                     </div>
-                     <DialogFooter>
-                        <Button type="submit">Adicionar</Button>
-                     </DialogFooter>
+                        <DialogHeader>
+                           <DialogTitle>Nova Vaga</DialogTitle>
+                           <DialogDescription>
+                              Preencha todos os campos para publicar sua nova vaga.
+                           </DialogDescription>
+                        </DialogHeader>
+                        <FormCreateJob/>
                      </DialogContent>
                   </Dialog>
                </div>
