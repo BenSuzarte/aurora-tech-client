@@ -1,7 +1,6 @@
-import React from 'react';
 import { useState } from "react";
 import axios from 'axios';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -10,12 +9,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Tiptap from '@/components/Tiptap';
 
+import { useNavigate } from'react-router-dom';
+
 export const FormCreateJob = () => {
+  const [err, setError] = useState('');
+
+  const id = localStorage.getItem('idUsuario');
+
+  if (!id) {
+    return
+  }
 
   const form = useForm<z.infer<typeof JobSchema>> ({
+
     mode: 'onChange',
     resolver: zodResolver(JobSchema),
     defaultValues: {
+      idUsuario: id,
       titulo: '',
       descricao: '',
       localidade: '',
@@ -24,8 +34,22 @@ export const FormCreateJob = () => {
     }
   })
 
-  function onSubmitJob(data: z.infer<typeof JobSchema>) {
-    console.log(data)
+  async function onSubmitJob(data: z.infer<typeof JobSchema>) {
+    try {
+      
+      const response = await axios.post(`http://localhost:3000/job/create/:${id}`, data)
+
+      if (response.status === 201) {
+        window.location.reload();
+        setError('Vaga criada com sucesso!')
+      }
+
+    } catch (error) {
+      console.log(error)
+      setError('Ocorreu um erro ao criar sua nova vaga!')
+    }
+
+
   }
 
   return (
@@ -96,6 +120,7 @@ export const FormCreateJob = () => {
             </FormItem>
           )}
         />
+        <p>{err}</p>
         <Button className=''>Adicionar</Button>
       </form>
     </Form>

@@ -23,7 +23,7 @@ export default function Tiptap({
     content: description,
     editorProps: {
       attributes: {
-        class: 'rounded-md border min-h-[150px] border-input bg-background ring-offset disabled:cursor-not-allowed disabled:opacity-50'
+        class: 'max-w-sm rounded-md border min-h-[150px] border-input bg-background ring-offset disabled:cursor-not-allowed disabled:opacity-50'
       },
     },
     onUpdate({ editor }) {

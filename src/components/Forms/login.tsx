@@ -33,9 +33,7 @@ export const LoginForm = () => {
   const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
     try {
       const response = await axios.post('http://localhost:3000/login', data)
-      console.log(response.data)
-
-      localStorage.setItem('idUsuario', response.data.idUsuario)
+      localStorage.setItem('idUsuario', response.data.idUser)
 
       if (response.status === 200) {
         navigate('/jobs')

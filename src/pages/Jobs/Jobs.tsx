@@ -1,12 +1,13 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Editor } from "@/components/Editor";
 import { Button } from "@/components/ui/button";
 import { MagnifyingGlassIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from "@/components/ui/select"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { FormCreateJob } from "@/components/Forms/Job/create";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function truncateText(text: string, maxLength: number) {
    if (text.length <= maxLength) {
@@ -22,6 +23,21 @@ function truncateText(text: string, maxLength: number) {
 }
 
 export function Jobs() {
+
+   const [id, setId] = useState(true);
+   const [title, setTitle] = useState('Nova Vaga');
+   const [subTitle, setSubTitle] = useState('Não possui uma conta?');
+
+   let idUser = localStorage.getItem('idUsuario');
+
+   if (idUser === undefined) {
+      setTitle('Entre ou Cadastre-se')
+      setSubTitle('Você precisa estar logado para publicar uma vaga.')
+      setId(false)
+   }
+
+   const navigate = useNavigate();
+
    const fullJobDescription = `
       Desenvolver e manter aplicações web utilizando tecnologias front-end e back-end.
       Colaborar com a equipe de design para criar interfaces intuitivas e responsivas.
@@ -113,11 +129,17 @@ export function Jobs() {
                      <Button variant="outline"> <PlusCircledIcon className="mr-2" /> Anuncie uma nova vaga aqui</Button>
                      </DialogTrigger>
                      <DialogContent className="sm:max-w-[425px]">
-                        <DialogHeader>
-                           <DialogTitle>Nova Vaga</DialogTitle>
+                        <DialogHeader className="text-center items-center">
+                           <DialogTitle>{title}</DialogTitle>
                            <DialogDescription>
-                              Preencha todos os campos para publicar sua nova vaga.
+                              {subTitle}
                            </DialogDescription>
+                           {id && (
+                              <div className="flex">
+                                 <Button variant="outline"   className="w-full ms-2 hover:bg-primary hover:text-white" onClick={() => navigate('/')}>Entrar</Button>
+                                 <Button variant="outline"   className=" w-full ms-2 hover:bg-primary hover:text-white" onClick={() => navigate('/register')}>Cadastrar</Button>
+                              </div>
+                           )}
                         </DialogHeader>
                         <FormCreateJob/>
                      </DialogContent>
