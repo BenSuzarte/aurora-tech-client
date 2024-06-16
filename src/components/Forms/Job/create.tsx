@@ -9,8 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Tiptap from '@/components/Tiptap';
 
-import { useNavigate } from'react-router-dom';
-
 export const FormCreateJob = () => {
   const [err, setError] = useState('');
 
@@ -111,7 +109,7 @@ export const FormCreateJob = () => {
           control={form.control}
           name = 'descricao'
           render={({ field }) => (
-            <FormItem className="mt-2">
+            <FormItem className="mt-2 h-max">
               <FormLabel>Descrição</FormLabel>
               <FormControl>
                 <Tiptap description={'Descreva sobre a vaga que deseja anunciar'} onChange={field.onChange} />

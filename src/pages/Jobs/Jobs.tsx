@@ -8,21 +8,14 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { FormCreateJob } from "@/components/Forms/Job/create";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import GetJobs from "@/components/GetJobs";
 
-function truncateText(text: string, maxLength: number) {
-   if (text.length <= maxLength) {
-      return text;
-   }
-   
-   const truncated = text.substring(0, maxLength);
-   const lastSpaceIndex = truncated.lastIndexOf(' ');
-   if (lastSpaceIndex === -1) {
-      return truncated + '...';
-   }
-   return truncated.substring(0, lastSpaceIndex) + '...';
-}
+const Jobs = () => {
 
-export function Jobs() {
+   //const response = await axios.get('http://localhost:3000/jobs');
+   //const jobs = response.data;
+
+   //console.log(jobs);
 
    const [id, setId] = useState(true);
    const [title, setTitle] = useState('Nova Vaga');
@@ -37,40 +30,6 @@ export function Jobs() {
    }
 
    const navigate = useNavigate();
-
-   const fullJobDescription = `
-      Desenvolver e manter aplicações web utilizando tecnologias front-end e back-end.
-      Colaborar com a equipe de design para criar interfaces intuitivas e responsivas.
-      Implementar e consumir APIs RESTful.
-      Participar de revisões de código e contribuir para a melhoria contínua das práticas de desenvolvimento.
-      Identificar e solucionar problemas técnicos.
-      Contribuir com ideias e soluções inovadoras para os desafios do projeto.
-
-      Requisitos:
-      Conhecimentos básicos em HTML, CSS e JavaScript.
-      Experiência com frameworks front-end como React, Angular ou Vue.js.
-      Familiaridade com linguagens de back-end como Node.js, Python, Ruby ou PHP.
-      Entendimento de bancos de dados relacionais e/ou não relacionais.
-      Boa comunicação e capacidade de trabalhar em equipe.
-      Vontade de aprender e se desenvolver na área de tecnologia.
-
-      Diferenciais:
-      Experiência com ferramentas de versionamento de código (ex: Git).
-      Conhecimento em metodologias ágeis (Scrum, Kanban).
-      Projetos pessoais ou contribuições para projetos open-source.
-      Experiência prévia em desenvolvimento de aplicações web, mesmo que acadêmica ou em projetos pessoais.
-
-      Benefícios:
-      Salário competitivo.
-      Plano de saúde e odontológico.
-      Vale-refeição/alimentação.
-      Programa de desenvolvimento profissional e mentoria.
-      Ambiente de trabalho inclusivo e colaborativo.
-      Flexibilidade de horário e possibilidade de trabalho remoto.
-
-      Como se Candidatar:
-      Se você se identifica com nossa missão e tem paixão por desenvolvimento web, envie seu currículo e portfólio para vagas@empresaexemplo.com com o assunto "Vaga Desenvolvedora Fullstack Júnior". Estamos ansiosos para conhecer você!
-   `;
 
    return (
       <>
@@ -153,26 +112,7 @@ export function Jobs() {
                      <CardDescription><p>Encontre as melhores vagas para mulheres no mercado de trabalho</p></CardDescription>
                   </CardHeader>
                   <CardContent>
-                     <Card className="m-6">
-                        <CardHeader>
-                           <CardTitle>Desenvolvedora FullStack React | NodeJS Júnior</CardTitle>
-                           <CardDescription className="flex"><p className="mr-2">Rocketseat Brasil </p><p> São Paulo - SP</p></CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                           <p>{truncateText(fullJobDescription, 650)}</p>
-                           <Button className="mt-4 text-right">Visuzalizar</Button>
-                        </CardContent>
-                     </Card>
-                     <Card className="m-6">
-                        <CardHeader>
-                           <CardTitle>Desenvolvedora FullStack React | NodeJS Júnior</CardTitle>
-                           <CardDescription className="flex"><p className="mr-2">Rocketseat Brasil </p><p> São Paulo - SP</p></CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                           <p>{truncateText(fullJobDescription, 650)}</p>
-                           <Button className="mt-4">Visuzalizar</Button>
-                        </CardContent>
-                     </Card>
+                     <GetJobs />
                   </CardContent>
                </Card>
             </section>
@@ -180,3 +120,5 @@ export function Jobs() {
       </>
    );
 }
+
+export default Jobs;
